@@ -35,8 +35,19 @@
     applyLang(lang);
   }
 
+  function getLangParam() {
+    var params = new URLSearchParams(window.location.search);
+    return params.get('lang');
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
-    applyLang(getLang());
+    var hasSavedPref = localStorage.getItem(STORAGE_KEY) !== null;
+
+    if (!hasSavedPref && getLangParam() === 'nl') {
+      setLang('nl');
+    } else {
+      applyLang(getLang());
+    }
 
     document.querySelectorAll('.lang-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
